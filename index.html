@@ -9,13 +9,19 @@
     <title>Game of Life</title>
   </head>
   <body>
-    <h1>Game of Life</h1>
-
-    <canvas class="canvas"></canvas>
-
-    <div>
-      <input type="range" id="volume" name="volume" min="0" max="10" />
-      <input type="button" value="Start" />
-    </div>
+    <main class="main-container">
+      <div class="container">
+        <div class="title">
+          <span>Game of Life</span>
+        </div>
+        <canvas class="canvas" width="800" , height="800"></canvas>
+        <div class="control-panel">
+          <input type="range" id="volume" name="volume" min="0" max="10" />
+          <input type="button" value="Start" />
+        </div>
+      </div>
+      </div>
+    </main>
+    <script src="game.js"></script>
   </body>
 </html>

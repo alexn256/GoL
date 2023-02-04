@@ -5,10 +5,23 @@ html {
 body {
     background-color: #333;
     font-family: HandelGothic, Trebuchet MS, sans-serif;
+
 }
 
-.canvas {
-    width: 800px;
-    height: 800px;
-    border: 1px solid white;
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+}
+
+.title {
+    font-weight: bolder;
+    font-size: 70px;
+    text-align: center;
+}
+
+.control-panel {
+    display: flex;
+    justify-content: center;
 }
