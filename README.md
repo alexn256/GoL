@@ -6,7 +6,6 @@ The attempt to implement the web version of the famous [simulation](https://en.w
 <img src="https://conwaylife.com/w/images/8/81/Glider.gif">
 </p>
 
-<hr>
 
 ## Rules
 
