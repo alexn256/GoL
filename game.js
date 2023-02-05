@@ -19,4 +19,6 @@ function drawGrid(canvas, cell) {
   }
 }
 
-drawGrid(canvas, 50);
+window.onload = (event) => {
+  drawGrid(canvas, 50);
+};
