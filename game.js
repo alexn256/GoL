@@ -17,6 +17,8 @@ const board = [
     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
 ];
 
+const cell = 50;
+
 let speed = document.querySelector("#volume");
 let canvas = document.querySelector(".canvas");
 
@@ -27,8 +29,7 @@ speed.addEventListener("input", () => {
 canvas.addEventListener("click", function (event) {
     const x = event.offsetX;
     const y = event.offsetY;
-    console.log("Clicked at", x, y);
-    drawCell(Math.floor(x / 50), Math.floor(y / 50), canvas.getContext("2d"));
+    drawCell(Math.floor(x / cell), Math.floor(y / cell), canvas.getContext("2d"));
 });
 
 function drawGrid(canvas, cell) {
@@ -48,10 +49,29 @@ function drawGrid(canvas, cell) {
 }
 
 function drawCell(x, y, context) {
-    console.log("Clicked at", x, y);
     board[y][x] = true;
     context.fillStyle = "#7678d7"
-    context.fillRect(x * 50, y * 50, 50 - 2, 50 - 2);
+    context.fillRect(x * cell, y * cell, cell - 2, cell - 2);
 }
 
-drawGrid(canvas, 50);
+function updateCell(x, y) {
+    if (y === 0) {
+        if (x === 0) {
+
+        } else if (x === board[y].length -1) {
+
+        } else {
+
+        }
+    } else if (y === board.length - 1) {
+
+    } else {
+
+    }
+}
+
+function engine() {
+
+}
+
+drawGrid(canvas, cell);
