@@ -16,17 +16,24 @@ const board = [
     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
 ];
+//TODO
+//let array = Array.from({ length: rows }, () => new Array(columns).fill(false));
 
 const cell = 50;
 
 let speed = document.querySelector("#volume");
 let canvas = document.querySelector(".canvas");
+let startBtn = document.querySelector('#start');
 
 speed.addEventListener("input", () => {
     console.log("speed = " + speed.value);
 });
 
-canvas.addEventListener("click", function (event) {
+startBtn.addEventListener('click', () => {
+   console.log('Start!');
+});
+
+canvas.addEventListener("click",  (event) => {
     const x = event.offsetX;
     const y = event.offsetY;
     drawCell(Math.floor(x / cell), Math.floor(y / cell), canvas.getContext("2d"));
