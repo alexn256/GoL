@@ -27,3 +27,7 @@ body {
     align-items: center;
     margin-top: 5px;
 }
+
+.canvas {
+    cursor: pointer;
+}
