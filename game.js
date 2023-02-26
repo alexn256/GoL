@@ -1,19 +1,30 @@
-const board = Array.from({ length: 15 }, () => new Array(15).fill(false));
-
-const cell = 50;
-const alive = "#7678d7";
-const dead = "#76D7C4";
-
 let speed = document.querySelector("#volume");
 let canvas = document.querySelector(".canvas");
 let startBtn = document.querySelector("#start");
+
+const cell = 25;
+
+const rows = canvas.offsetWidth / cell;
+const cols = canvas.offsetHeight / cell;
+
+let board = Array.from({ length: cols }, () => new Array(rows).fill(false));
+
+const alive = "#CBE724";
+const dead = "#1A2026";
+const pause = false;
 
 speed.addEventListener("input", () => {
   console.log("speed = " + speed.value);
 });
 
 startBtn.addEventListener("click", () => {
-  repeatAction(2);
+  if (pause) {
+    stopAction();
+    pause = false;
+  } else {
+    repeatAction(0.5);
+    pause = true;
+  }
 });
 
 canvas.addEventListener("click", (event) => {
@@ -50,65 +61,75 @@ function drawCell(x, y, context, color) {
   context.fillRect(x * cell, y * cell, cell - 2, cell - 2);
 }
 
-function updateCell(x, y) {
-  let count = 0;
-  // up
-  let tY = y === 0 ? board.length - 1 : y - 1;
-  if (board[tY][x]) {
-    count += 1;
+function nextGen(grid) {
+  const nextGen = Array.from({ length: cols }, () =>
+    new Array(rows).fill(false)
+  );
+  for (let y = 0; y < grid.length; y += 1) {
+    for (let x = 0; x < grid[y].length; x += 1) {
+      let count = 0;
+      const alive = grid[y][x];
+      // up
+      let tY = y === 0 ? grid.length - 1 : y - 1;
+      if (grid[tY][x]) {
+        count += 1;
+      }
+      // down
+      tY = y === grid.length - 1 ? 0 : y + 1;
+      if (grid[tY][x]) {
+        count += 1;
+      }
+      //left
+      let tX = x === 0 ? grid[y].length - 1 : x - 1;
+      if (grid[y][tX]) {
+        count += 1;
+      }
+      tX = x === grid[y].length - 1 ? 0 : x + 1;
+      if (grid[y][tX]) {
+        count += 1;
+      }
+      // up + left
+      tY = y === 0 ? grid.length - 1 : y - 1;
+      tX = x === 0 ? grid[y].length - 1 : x - 1;
+      if (grid[tY][tX]) {
+        count += 1;
+      }
+      // up + right
+      tX = x === grid[y].length - 1 ? 0 : x + 1;
+      if (grid[tY][tX]) {
+        count += 1;
+      }
+      // down + left
+      tY = y === grid.length - 1 ? 0 : y + 1;
+      tX = x === 0 ? grid[y].length - 1 : x - 1;
+      if (grid[tY][tX]) {
+        count += 1;
+      }
+      // down + right
+      tX = x === grid[y].length - 1 ? 0 : x + 1;
+      if (grid[tY][tX]) {
+        count += 1;
+      }
+      //death or life
+      if (alive && (count === 2 || count === 3)) {
+        nextGen[y][x] = true;
+      } else if (!alive && count === 3) {
+        nextGen[y][x] = true;
+      }
+    }
   }
-  // down
-  tY = y === board.length - 1 ? 0 : y + 1;
-  if (board[tY][x]) {
-    count += 1;
-  }
-  //left
-  let tX = x === 0 ? board[y].length - 1 : x - 1;
-  if (board[y][tX]) {
-    count += 1;
-  }
-  tX = x === board[y].length - 1 ? 0 : x + 1;
-  if (board[y][tX]) {
-    count += 1;
-  }
-  // up + left
-  tY = y === 0 ? board.length - 1 : y - 1;
-  tX = x === 0 ? board[y].length - 1 : x - 1;
-  if (board[tY][tX]) {
-    count += 1;
-  }
-  // up + right
-  tX = x === board[y].length - 1 ? 0 : x + 1;
-  if (board[tY][tX]) {
-    count += 1;
-  }
-  // down + left
-  tY = y === board.length - 1 ? 0 : y + 1;
-  tX = x === 0 ? board[y].length - 1 : x - 1;
-  if (board[tY][tX]) {
-    count += 1;
-  }
-  // down + right
-  tX = x === board[y].length - 1 ? 0 : x + 1;
-  if (board[tY][tX]) {
-    count += 1;
-  }
-  //death or life
-  if ((count < 2 || count > 3) && board[y][x]) {
-    board[y][x] = false;
-  } else if (count > 3 && !board[y][x]) {
-    board[y][x] = true;
-  }
+  return nextGen;
 }
 
-function eval() {
-  console.log("eveal");
+function update() {
+  board = nextGen(board);
+  drawGrid(canvas, cell);
 }
 
 let intervalId;
 
 function repeatAction(n) {
-  intervalId = setInterval(eval, n * 1000);
+  intervalId = setInterval(update, n * 1000);
 }
 
 function stopAction() {
