@@ -4,4 +4,4 @@
 docker build -t gol:1.0 .
 
 # Run a container using the built image
-docker run --name gol-game -it gol:1.0
+docker run --rm --name gol-game -it gol:1.0
