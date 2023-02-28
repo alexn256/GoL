@@ -1,9 +1,9 @@
-let speed = document.querySelector("#volume");
-let canvas = document.querySelector(".canvas");
-let startBtn = document.querySelector("#start");
+const speed = document.querySelector("#volume");
+const canvas = document.querySelector(".canvas");
+const startBtn = document.querySelector("#start");
+const count = document.querySelector(".gen");
 
 const cell = 25;
-
 const rows = canvas.offsetWidth / cell;
 const cols = canvas.offsetHeight / cell;
 
@@ -11,29 +11,42 @@ let board = Array.from({ length: cols }, () => new Array(rows).fill(false));
 
 const alive = "#CBE724";
 const dead = "#1A2026";
-const pause = false;
+
+let pause = false;
+let genCount = 0;
 
 speed.addEventListener("input", () => {
-  console.log("speed = " + speed.value);
+  if (pause) {
+    stopAction();
+    repeatAction(speed.value);
+  }
 });
 
 startBtn.addEventListener("click", () => {
+  let title;
   if (pause) {
     stopAction();
     pause = false;
+    title = "Start";
   } else {
-    repeatAction(0.5);
+    repeatAction(speed.value);
     pause = true;
+    title = "Stop";
   }
+  console.log(pause);
+  startBtn.textContent = title;
 });
 
 canvas.addEventListener("click", (event) => {
   const x = Math.floor(event.offsetX / cell);
   const y = Math.floor(event.offsetY / cell);
+  let state;
   if (board[y][x]) {
+    state = dead;
     drawCell(x, y, canvas.getContext("2d"), dead);
     board[y][x] = false;
   } else {
+    state = alive;
     drawCell(x, y, canvas.getContext("2d"), alive);
     board[y][x] = true;
   }
@@ -41,10 +54,8 @@ canvas.addEventListener("click", (event) => {
 
 function drawGrid(canvas, cell) {
   const context = canvas.getContext("2d");
-  const width = canvas.width;
-  const height = canvas.height;
-  for (let y = 0; y < height / cell; y += 1) {
-    for (let x = 0; x < width / cell; x += 1) {
+  for (let y = 0; y < cols; y += 1) {
+    for (let x = 0; x < rows; x += 1) {
       if (board[y][x]) {
         context.fillStyle = alive;
       } else {
@@ -69,17 +80,14 @@ function nextGen(grid) {
     for (let x = 0; x < grid[y].length; x += 1) {
       let count = 0;
       const alive = grid[y][x];
-      // up
       let tY = y === 0 ? grid.length - 1 : y - 1;
       if (grid[tY][x]) {
         count += 1;
       }
-      // down
       tY = y === grid.length - 1 ? 0 : y + 1;
       if (grid[tY][x]) {
         count += 1;
       }
-      //left
       let tX = x === 0 ? grid[y].length - 1 : x - 1;
       if (grid[y][tX]) {
         count += 1;
@@ -88,29 +96,24 @@ function nextGen(grid) {
       if (grid[y][tX]) {
         count += 1;
       }
-      // up + left
       tY = y === 0 ? grid.length - 1 : y - 1;
       tX = x === 0 ? grid[y].length - 1 : x - 1;
       if (grid[tY][tX]) {
         count += 1;
       }
-      // up + right
       tX = x === grid[y].length - 1 ? 0 : x + 1;
       if (grid[tY][tX]) {
         count += 1;
       }
-      // down + left
       tY = y === grid.length - 1 ? 0 : y + 1;
       tX = x === 0 ? grid[y].length - 1 : x - 1;
       if (grid[tY][tX]) {
         count += 1;
       }
-      // down + right
       tX = x === grid[y].length - 1 ? 0 : x + 1;
       if (grid[tY][tX]) {
         count += 1;
       }
-      //death or life
       if (alive && (count === 2 || count === 3)) {
         nextGen[y][x] = true;
       } else if (!alive && count === 3) {
@@ -124,12 +127,14 @@ function nextGen(grid) {
 function update() {
   board = nextGen(board);
   drawGrid(canvas, cell);
+  genCount += 1;
+  count.textContent = "Generation: " + `00000000${genCount}`.slice(-9);
 }
 
 let intervalId;
 
-function repeatAction(n) {
-  intervalId = setInterval(update, n * 1000);
+function repeatAction(speed) {
+  intervalId = setInterval(update, (1 / (2 * speed)) * 1000);
 }
 
 function stopAction() {

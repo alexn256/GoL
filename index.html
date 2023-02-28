@@ -13,15 +13,26 @@
       <div class="container">
         <hr />
         <div class="title">
-          <span>Game of Life</span>
+          <span
+            >&#x25A2; &#x25A2; &#x25A2; Game of Life &#x25A2; &#x25A2;
+            &#x25A2;</span
+          >
+          <div class="control-panel">
+            <label for="Volume"></label>
+            <input
+              type="range"
+              id="volume"
+              name="volume"
+              min="1"
+              max="10"
+              value="1"
+            />
+            <button id="start">Start</button>
+          </div>
+          <span class="gen">Generation: 000000000</span>
         </div>
         <hr />
         <canvas class="canvas" width="1500" height="750"></canvas>
-        <div class="control-panel">
-          <label for="Volume"></label>
-          <input type="range" id="volume" name="volume" min="0" max="10" />
-          <button id="start">Start</button>
-        </div>
       </div>
     </main>
     <script src="game.js"></script>

@@ -16,8 +16,10 @@ body {
 }
 
 .title {
+    display: flex;
+    justify-content: space-between;
     font-weight: bolder;
-    font-size: 70px;
+    font-size: 26px;
     text-align: center;
 }
 
@@ -29,5 +31,17 @@ body {
 }
 
 .canvas {
+    cursor: pointer;
+}
+
+#volume {
+    width: 200px;
+    margin-right: 20px;
+}
+
+#start {
+    width: 150px;
+    height: 25px;
+    font-weight: bold;
     cursor: pointer;
 }
