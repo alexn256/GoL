@@ -14,24 +14,26 @@ const dead = "#1A2026";
 
 let pause = false;
 let genCount = 0;
+let activeCells = 0;
 
 speed.addEventListener("input", () => {
-  if (pause) {
+  if (pause && activeCells > 0) {
     stopAction();
     repeatAction(speed.value);
   }
 });
 
 startBtn.addEventListener("click", () => {
-  let title;
+  let title = "Start";
   if (pause) {
     stopAction();
     pause = false;
-    title = "Start";
   } else {
-    repeatAction(speed.value);
-    pause = true;
-    title = "Stop";
+    if (activeCells > 0) {
+      repeatAction(speed.value);
+      pause = true;
+      title = "Stop";
+    }
   }
   console.log(pause);
   startBtn.textContent = title;
@@ -45,10 +47,12 @@ canvas.addEventListener("click", (event) => {
     state = dead;
     drawCell(x, y, canvas.getContext("2d"), dead);
     board[y][x] = false;
+    activeCells -= 1;
   } else {
     state = alive;
     drawCell(x, y, canvas.getContext("2d"), alive);
     board[y][x] = true;
+    activeCells += 1;
   }
 });
 
@@ -116,8 +120,10 @@ function nextGen(grid) {
       }
       if (alive && (count === 2 || count === 3)) {
         nextGen[y][x] = true;
+        activeCells += 1;
       } else if (!alive && count === 3) {
         nextGen[y][x] = true;
+        activeCells -= 1;
       }
     }
   }
