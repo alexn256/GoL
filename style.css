@@ -4,7 +4,7 @@ html {
 
 body {
     background-color: #333;
-    font-family: HandelGothic, Trebuchet MS, sans-serif;
+    font-family: Courier New, sans-serif;
 
 }
 
@@ -27,7 +27,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5px;
+    margin-bottom: 25px;
 }
 
 .canvas {
@@ -44,4 +44,5 @@ body {
     height: 25px;
     font-weight: bold;
     cursor: pointer;
+    font-family: Courier New, sans-serif;
 }

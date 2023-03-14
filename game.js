@@ -35,7 +35,6 @@ startBtn.addEventListener("click", () => {
       title = "Stop";
     }
   }
-  console.log(pause);
   startBtn.textContent = title;
 });
 
@@ -120,7 +119,6 @@ function nextGen(grid) {
       }
       if (alive && (count === 2 || count === 3)) {
         nextGen[y][x] = true;
-        activeCells += 1;
       } else if (!alive && count === 3) {
         nextGen[y][x] = true;
         activeCells += 1;
@@ -137,7 +135,6 @@ function update() {
   drawGrid(canvas, cell);
   genCount += 1;
   count.textContent = "Generation: " + `00000000${genCount}`.slice(-9);
-  console.log(activeCells);
   if (activeCells < 1) {
     stopAction();
   }
