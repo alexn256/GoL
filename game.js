@@ -3,14 +3,16 @@ const canvas = document.querySelector(".canvas");
 const startBtn = document.querySelector("#start");
 const count = document.querySelector(".gen");
 
+configCanvas();
+
 const cell = 25;
 const rows = canvas.offsetWidth / cell;
 const cols = canvas.offsetHeight / cell;
 
 let board = Array.from({ length: cols }, () => new Array(rows).fill(false));
 
-const alive = "#CBE724";
-const dead = "#1A2026";
+const alive = "#5cda1c";
+const dead = "#4d525e";
 
 let pause = false;
 let genCount = 0;
@@ -148,6 +150,14 @@ function repeatAction(speed) {
 
 function stopAction() {
   clearInterval(intervalId);
+}
+
+function configCanvas() {
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+  canvas.width = Math.round(screenWidth * 0.8 / 50) * 50;
+  canvas.height = Math.round(screenHeight * 0.7 / 50) * 50;
 }
 
 drawGrid(canvas, cell);
