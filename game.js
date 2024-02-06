@@ -43,14 +43,12 @@ startBtn.addEventListener("click", () => {
 canvas.addEventListener("click", (event) => {
   const x = Math.floor(event.offsetX / cell);
   const y = Math.floor(event.offsetY / cell);
-  let state;
+  board[y][x];
   if (board[y][x]) {
-    state = dead;
     drawCell(x, y, canvas.getContext("2d"), dead);
     board[y][x] = false;
     activeCells -= 1;
   } else {
-    state = alive;
     drawCell(x, y, canvas.getContext("2d"), alive);
     board[y][x] = true;
     activeCells += 1;
@@ -155,7 +153,6 @@ function stopAction() {
 function configCanvas() {
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
-  const ctx = canvas.getContext('2d');
   canvas.width = Math.round(screenWidth * 0.8 / 50) * 50;
   canvas.height = Math.round(screenHeight * 0.7 / 50) * 50;
 }
